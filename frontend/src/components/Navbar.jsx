@@ -78,6 +78,67 @@ const Navbar = () => {
                         Create account
                     </button>
                 )}
+                <img
+                    src={assets.menu_icon}
+                    alt="Menu Icon"
+                    className="w-6 md:hidden"
+                    onClick={() => setShowMenu(true)}
+                />
+                <div
+                    className={`fixed right-0 top-0 bg-white h-full w-full transition-all duration-300 z-10 ${
+                        showMenu ? "translate-x-0" : "translate-x-full"
+                    }`}
+                >
+                    <div className="flex justify-between items-center px-5 py-6">
+                        <img
+                            src={assets.logo}
+                            alt="Logo"
+                            className="w-36 cursor-pointer"
+                        />
+                        <img
+                            src={assets.cross_icon}
+                            alt="Close Icon"
+                            className="w-7 cursor-pointer"
+                            onClick={() => setShowMenu(false)}
+                        />
+                    </div>
+                    <ul className="flex flex-col items-center uppercase text-lg font-medium mt-5 gap-2">
+                        <NavLink onClick={() => setShowMenu(false)} to="/">
+                            {({ isActive }) => (
+                                <li className={`py-2 px-4 inline-block rounded ${isActive ? 'bg-primary text-white' : ''}`}>
+                                    Home
+                                </li>
+                            )}
+                        </NavLink>
+                        <NavLink
+                            onClick={() => setShowMenu(false)}
+                            to="/doctors"
+                        >
+                            {({ isActive }) => (
+                                <li className={`py-2 px-4 inline-block rounded ${isActive ? 'bg-primary text-white' : ''}`}>
+                                    All Doctors
+                                </li>
+                            )}
+                        </NavLink>
+                        <NavLink onClick={() => setShowMenu(false)} to="/about">
+                            {({ isActive }) => (
+                                <li className={`py-2 px-4 inline-block rounded ${isActive ? 'bg-primary text-white' : ''}`}>
+                                    About
+                                </li>
+                            )}
+                        </NavLink>
+                        <NavLink
+                            onClick={() => setShowMenu(false)}
+                            to="/contact"
+                        >
+                            {({ isActive }) => (
+                                <li className={`py-2 px-4 inline-block rounded ${isActive ? 'bg-primary text-white' : ''}`}>
+                                    Contact
+                                </li>
+                            )}
+                        </NavLink>
+                    </ul>
+                </div>
             </div>
         </div>
     );
