@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/mongodb.js";
 import connectCloudinary from "./config/cloudinary.js";
-
+import adminRouter from "./routes/adminRoute.js";
 dotenv.config();
 
 // Initialize the express app
@@ -18,9 +18,12 @@ connectCloudinary();
 
 // Middlewares
 app.use(cors());
-app.use(express.json());
+app.use(express.json()); // Middlewares for parsing application/json
+app.use(express.urlencoded({ extended: true })); // Middlewares for parsing application/x-www-form-urlencoded
 
 // Routes
+app.use("/api/v1/admin", adminRouter);
+
 app.use("/", (req, res) => {
     res.send("API is up and running");
 });
