@@ -98,7 +98,7 @@ const loginAdmin = async (req, res) => {
             });
         }
         else {
-            return res.status(400).json({
+            return res.status(401).json({
                 success: false,
                 message: "Invalid credentials"
             });
@@ -108,7 +108,7 @@ const loginAdmin = async (req, res) => {
         console.log(error);
         return res.status(500).json({
             success: false,
-            message: error.message
+            message: "Something went wrong"
         });
     }
 }
