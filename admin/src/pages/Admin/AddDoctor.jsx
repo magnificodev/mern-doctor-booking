@@ -1,21 +1,79 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { toast } from "react-toastify";
 import { assets } from "../../assets/assets";
+import { AdminContext } from "../../contexts/AdminContext";
+import axios from "axios";
+import { doctors } from "../../../../frontend/src/assets/assets.js";
 const AddDoctor = () => {
     const [docImage, setDocImage] = useState(null);
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [name, setName] = useState("Richard");
+    const [email, setEmail] = useState("doc@gmail.com");
+    const [password, setPassword] = useState("Doctor123@");
     const [experience, setExperience] = useState("1 Year");
-    const [fees, setFees] = useState("");
+    const [fees, setFees] = useState("1000");
     const [speciality, setSpeciality] = useState("General physician");
-    const [degree, setDegree] = useState("");
-    const [address1, setAddress1] = useState("");
-    const [address2, setAddress2] = useState("");
-    const [about, setAbout] = useState("");
+    const [degree, setDegree] = useState("MBBS");
+    const [address1, setAddress1] = useState("123 Main St");
+    const [address2, setAddress2] = useState("Apt 1");
+    const [about, setAbout] = useState(
+        "Richard is a general physician with 1 year of experience"
+    );
+
+    const { backendUrl, atoken } = useContext(AdminContext);
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
-        console.log(e.target);
+
+        try {
+            if (!docImage) {
+                toast.error("Please upload doctor image");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("name", name);
+            formData.append("email", email);
+            formData.append("password", password);
+            formData.append("experience", experience);
+            formData.append("fees", Number(fees));
+            formData.append("speciality", speciality);
+            formData.append("degree", degree);
+            formData.append(
+                "address",
+                JSON.stringify({
+                    line1: address1,
+                    line2: address2,
+                })
+            );
+            formData.append("about", about);
+            formData.append("image", docImage);
+
+            const { data } = await axios.post(
+                `${backendUrl}/api/v1/admin/add-doctor`,
+                formData,
+                {
+                    headers: {
+                        atoken: atoken,
+                    },
+                }
+            );
+
+            if (data.success) {
+                toast.success("Doctor added successfully");
+                setDocImage(null);
+                setName("");
+                // setEmail("");
+                // setPassword("");
+                setFees("");
+                setDegree("");
+                setAddress1("");
+                setAddress2("");
+                setAbout("");
+            }
+        } catch (err) {
+            console.log(err);
+            toast.error(err.response.data.message);
+        }
     };
 
     return (
@@ -86,7 +144,6 @@ const AddDoctor = () => {
                             <select
                                 className="w-full border rounded px-2 py-2 mt-1"
                                 name=""
-                                id=""
                                 value={experience}
                                 onChange={(e) => setExperience(e.target.value)}
                             >
@@ -127,7 +184,6 @@ const AddDoctor = () => {
                             <select
                                 className="w-full border rounded px-2 py-2 mt-1"
                                 name=""
-                                id=""
                                 value={speciality}
                                 onChange={(e) => setSpeciality(e.target.value)}
                             >

@@ -30,7 +30,7 @@ const addDoctor = async (req, res) => {
         if (!validator.isStrongPassword(password)) {
             return res.status(400).json({
                 success: false,
-                message: "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character"
+                message: "Try a stronger password!"
             });
         }
 
