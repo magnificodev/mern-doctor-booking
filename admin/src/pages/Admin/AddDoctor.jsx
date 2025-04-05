@@ -62,8 +62,8 @@ const AddDoctor = () => {
                 toast.success("Doctor added successfully");
                 setDocImage(null);
                 setName("");
-                // setEmail("");
-                // setPassword("");
+                setEmail("");
+                setPassword("");
                 setFees("");
                 setDegree("");
                 setAddress1("");
