@@ -60,7 +60,7 @@ const Sidebar = () => {
                                     : ""
                             }`
                         }
-                        to="/doctors-list"
+                        to="/doctor-list"
                     >
                         <img src={assets.people_icon} alt="doctors list" />
                         <p>Doctors List</p>

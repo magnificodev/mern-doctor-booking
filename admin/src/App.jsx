@@ -26,7 +26,7 @@ const App = () => {
                         path="/all-appointments"
                         element={<AllAppointments />}
                     />
-                    <Route path="/doctors-list" element={<DoctorsList />} />
+                    <Route path="/doctor-list" element={<DoctorsList />} />
                 </Routes>
             </div>
             <ToastContainer />
