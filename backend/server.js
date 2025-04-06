@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true })); // Middlewares for parsing appl
 
 // Routes
 app.use("/api/v1/admin", adminRouter);
-
+app.use("/api/v1/doctor", doctorRouter);
 app.use("/", (req, res) => {
     res.send("API is up and running");
 });

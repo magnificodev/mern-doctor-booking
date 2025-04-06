@@ -1,8 +1,9 @@
 import express from "express";
-import { changeAvailability } from "../controllers/doctorController.js";
+import { changeAvailability, doctorList } from "../controllers/doctorController.js";
 import { authAdmin } from "../middlewares/authAdmin.js";
 
-const router = express.Router();
+const doctorRouter = express.Router();
 
+doctorRouter.get("/list", doctorList);
 
-export default router;
+export default doctorRouter;
