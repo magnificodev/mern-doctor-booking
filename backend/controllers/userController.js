@@ -44,13 +44,10 @@ const registerUser = async (req, res) => {
             password: hashedPassword
         })
 
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_USER_AUTH_SECRET);
-
         return res.status(201).json({
             success: true,
             message: "User registered successfully",
-            user,
-            token
+            user
         })
 
     }
@@ -62,5 +59,49 @@ const registerUser = async (req, res) => {
     }
 }
 
+const loginUser = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        if (!email || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "All fields are required"
+            })
+        }
 
-export { registerUser };
+        const user = await userModel.findOne({ email });
+
+        if (!user) {
+            return res.status(400).json({
+                success: false,
+                message: "User not found"
+            })
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordValid) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid password"
+            })
+        }
+
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_USER_AUTH_SECRET);
+
+        return res.status(200).json({
+            success: true,
+            message: "User logged in successfully",
+            user,
+            token
+        })
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+export { registerUser, loginUser };
