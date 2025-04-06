@@ -1,13 +1,36 @@
 import React from "react";
 import { assets } from "../assets/assets";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AppContext } from "../contexts/AppContext";
+import axios from "axios";
+import { toast } from "react-toastify";
+
 
 const Navbar = () => {
     const navigate = useNavigate();
     const [showMenu, setShowMenu] = useState(false);
-    const [token, setToken] = useState(true);
+    const { token, setToken, user, setUser, backendUrl } = useContext(AppContext);
 
+    const logout = async () => {
+        try {
+            const { data } = await axios.post(`${backendUrl}/api/v1/user/logout`, {
+                token
+            });
+            if (data.success) {
+                setToken(null);
+                setUser(null);
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+                toast.success(data.message);
+                navigate("/");
+            }
+        }
+        catch (error) {
+            console.log(error);
+            toast.error(error.response.data.message);
+        }
+    }
     return (
         <div className="flex justify-between items-center text-sm py-4 mb-5 border-b border-b-gray-400">
             <img
@@ -39,7 +62,7 @@ const Navbar = () => {
                     <div className="flex items-center gap-2 cursor-pointer group relative">
                         <img
                             className="w-8 rounded-full"
-                            src={assets.profile_pic}
+                            src={user.image}
                             alt="Profile Pic"
                         />
                         <img
@@ -62,7 +85,7 @@ const Navbar = () => {
                                     My Appointments
                                 </p>
                                 <p
-                                    onClick={() => setToken(false)}
+                                    onClick={logout}
                                     className="hover:text-black cursor-pointer transition-all duration-300"
                                 >
                                     Logout

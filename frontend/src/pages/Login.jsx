@@ -11,7 +11,7 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
     
-    const { backendUrl, setToken } = useContext(AppContext);
+    const { backendUrl, setToken, setUser } = useContext(AppContext);
     const navigate = useNavigate();
 
     const onSubmitHandler = async (e) => {
@@ -36,7 +36,9 @@ const Login = () => {
                 );
                 if (data.success) {
                     setToken(data.token);
+                    setUser(data.user);
                     localStorage.setItem("token", data.token);
+                    localStorage.setItem("user", JSON.stringify(data.user));
                     navigate("/");
                     toast.success(data.message);
                 }
