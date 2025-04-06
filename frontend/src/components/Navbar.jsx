@@ -3,20 +3,16 @@ import { assets } from "../assets/assets";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 import { AppContext } from "../contexts/AppContext";
-import axios from "axios";
 import { toast } from "react-toastify";
 
 const Navbar = () => {
     const navigate = useNavigate();
     const [showMenu, setShowMenu] = useState(false);
-    const { token, setToken, user, setUser, backendUrl } =
-        useContext(AppContext);
+    const { token, setToken, userData } = useContext(AppContext);
 
     const logout = () => {
         setToken(null);
-        setUser(null);
         localStorage.removeItem("token");
-        localStorage.removeItem("user");
         toast.success("Logged out successfully");
         navigate("/");
     };
@@ -47,11 +43,11 @@ const Navbar = () => {
                 </NavLink>
             </ul>
             <div className="flex gap-4 items-center">
-                {token ? (
+                {token && userData ? (
                     <div className="flex items-center gap-2 cursor-pointer group relative">
                         <img
                             className="w-8 rounded-full"
-                            src={user.image}
+                            src={userData.image}
                             alt="Profile Pic"
                         />
                         <img

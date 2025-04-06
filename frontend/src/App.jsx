@@ -30,7 +30,7 @@ const App = () => {
                 />
             </Routes>
             <Footer />
-            <ToastContainer />
+            <ToastContainer position="bottom-right"/>
         </div>
     );
 };

@@ -29,7 +29,7 @@ const App = () => {
                     <Route path="/doctor-list" element={<DoctorsList />} />
                 </Routes>
             </div>
-            <ToastContainer />
+            <ToastContainer position="bottom-right"/>
         </div>
     ) : (
         <>

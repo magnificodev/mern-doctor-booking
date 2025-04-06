@@ -1,19 +1,9 @@
 import React, { useState } from "react";
-import { assets } from "../assets/assets";
+import { useContext } from "react";
+import { AppContext } from "../contexts/AppContext";
 
 const MyProfile = () => {
-    const [userData, setUserData] = useState({
-        name: "Richard Nguyen",
-        email: "richardnguyen26th8@gmail.com",
-        phone: "0123456789",
-        address: {
-            line1: "Thu Duc City",
-            line2: "Ho Chi Minh City",
-        },
-        gender: "Male",
-        birthday: "2002-08-26",
-        image: assets.profile_pic,
-    });
+    const { userData } = useContext(AppContext);
 
     const [isEdit, setIsEdit] = useState(false);
 
@@ -21,9 +11,7 @@ const MyProfile = () => {
         // TODO: Save information to database
     };
 
-    console.log(userData.birthday);
-
-    return (
+    return userData && (
         <div className="max-w-lg flex flex-col gap-2 text-sm mt-10">
             <img className="w-36 rounded" src={userData.image} alt="" />
             {isEdit ? (

@@ -4,19 +4,16 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../contexts/AppContext";
 
-
 const Login = () => {
     const [state, setState] = useState("Sign Up");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
-    
-    const { backendUrl, setToken, setUser } = useContext(AppContext);
+    const { backendUrl, setToken } = useContext(AppContext);
     const navigate = useNavigate();
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
-
 
         try {
             if (state === "Sign Up") {
@@ -28,23 +25,19 @@ const Login = () => {
                     setState("Log In");
                     toast.success(data.message);
                 }
-            }
-            else {
+            } else {
                 const { data } = await axios.post(
                     `${backendUrl}/api/v1/user/login`,
                     { email, password }
                 );
                 if (data.success) {
                     setToken(data.token);
-                    setUser(data.user);
                     localStorage.setItem("token", data.token);
-                    localStorage.setItem("user", JSON.stringify(data.user));
                     navigate("/");
                     toast.success(data.message);
                 }
             }
-        }
-        catch (error) {
+        } catch (error) {
             console.log(error);
             toast.error(error.response.data.message);
         }
