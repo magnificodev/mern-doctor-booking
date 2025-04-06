@@ -7,9 +7,8 @@ const AppContextProvider = ({ children }) => {
     const currencySymbol = "$";
     const [doctors, setDoctors] = useState([]);
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
-    const [token, setToken] = useState(localStorage.getItem("token"));
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
-
+    const [token, setToken] = useState(localStorage.getItem("token") ?? "");
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) ?? null);
 
     const value = {
         doctors,

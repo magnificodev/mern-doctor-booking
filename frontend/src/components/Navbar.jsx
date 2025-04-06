@@ -6,31 +6,20 @@ import { AppContext } from "../contexts/AppContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-
 const Navbar = () => {
     const navigate = useNavigate();
     const [showMenu, setShowMenu] = useState(false);
-    const { token, setToken, user, setUser, backendUrl } = useContext(AppContext);
+    const { token, setToken, user, setUser, backendUrl } =
+        useContext(AppContext);
 
-    const logout = async () => {
-        try {
-            const { data } = await axios.post(`${backendUrl}/api/v1/user/logout`, {
-                token
-            });
-            if (data.success) {
-                setToken(null);
-                setUser(null);
-                localStorage.removeItem("token");
-                localStorage.removeItem("user");
-                toast.success(data.message);
-                navigate("/");
-            }
-        }
-        catch (error) {
-            console.log(error);
-            toast.error(error.response.data.message);
-        }
-    }
+    const logout = () => {
+        setToken(null);
+        setUser(null);
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        toast.success("Logged out successfully");
+        navigate("/");
+    };
     return (
         <div className="flex justify-between items-center text-sm py-4 mb-5 border-b border-b-gray-400">
             <img
@@ -128,7 +117,11 @@ const Navbar = () => {
                     <ul className="flex flex-col items-center uppercase text-lg font-medium mt-5 gap-2">
                         <NavLink onClick={() => setShowMenu(false)} to="/">
                             {({ isActive }) => (
-                                <li className={`py-2 px-4 inline-block rounded ${isActive ? 'bg-primary text-white' : ''}`}>
+                                <li
+                                    className={`py-2 px-4 inline-block rounded ${
+                                        isActive ? "bg-primary text-white" : ""
+                                    }`}
+                                >
                                     Home
                                 </li>
                             )}
@@ -138,14 +131,22 @@ const Navbar = () => {
                             to="/doctors"
                         >
                             {({ isActive }) => (
-                                <li className={`py-2 px-4 inline-block rounded ${isActive ? 'bg-primary text-white' : ''}`}>
+                                <li
+                                    className={`py-2 px-4 inline-block rounded ${
+                                        isActive ? "bg-primary text-white" : ""
+                                    }`}
+                                >
                                     All Doctors
                                 </li>
                             )}
                         </NavLink>
                         <NavLink onClick={() => setShowMenu(false)} to="/about">
                             {({ isActive }) => (
-                                <li className={`py-2 px-4 inline-block rounded ${isActive ? 'bg-primary text-white' : ''}`}>
+                                <li
+                                    className={`py-2 px-4 inline-block rounded ${
+                                        isActive ? "bg-primary text-white" : ""
+                                    }`}
+                                >
                                     About
                                 </li>
                             )}
@@ -155,7 +156,11 @@ const Navbar = () => {
                             to="/contact"
                         >
                             {({ isActive }) => (
-                                <li className={`py-2 px-4 inline-block rounded ${isActive ? 'bg-primary text-white' : ''}`}>
+                                <li
+                                    className={`py-2 px-4 inline-block rounded ${
+                                        isActive ? "bg-primary text-white" : ""
+                                    }`}
+                                >
                                     Contact
                                 </li>
                             )}
