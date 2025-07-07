@@ -244,8 +244,26 @@ const bookAppointment = async (req, res) => {
             message: error.message
         })
     }
-
-    
 }
 
-export { registerUser, loginUser, getProfile, updateProfile, bookAppointment };
+// API to get all appointments of a user
+const getUserAppointments = async (req, res) => {
+    try {
+        const { userId } = req.user;
+        const appointments = await appointmentModel.find({ userId });
+        return res.status(200).json({
+            success: true,
+            message: "Appointments fetched successfully",
+            appointments
+        })
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+
+export { registerUser, loginUser, getProfile, updateProfile, bookAppointment, getUserAppointments };
