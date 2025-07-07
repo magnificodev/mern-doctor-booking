@@ -265,5 +265,47 @@ const getUserAppointments = async (req, res) => {
     }
 }
 
+const cancelAppointment = async (req, res) => {
+    try {
+        const { userId } = req.user;
+        const { appointmentId } = req.body;
+        const appointment = await appointmentModel.findById(appointmentId);
+        if (!appointment) {
+            return res.status(400).json({
+                success: false,
+                message: "Appointment not found!"
+            })
+        }
 
-export { registerUser, loginUser, getProfile, updateProfile, bookAppointment, getUserAppointments };
+        // Verify if the user is the one who booked the appointment
+        if (appointment.userId.toString() !== userId.toString()) {
+            return res.status(400).json({
+                success: false,
+                message: "You are not authorized to cancel this appointment!"
+            })
+        }
+
+        // Cancel the appointment
+        await appointmentModel.findByIdAndUpdate(appointmentId, { cancelled: true }, { new: true });
+
+        // Remove the slot from the doctor's slots_booked
+        const { doctorId, slotDate, slotTime } = appointment;
+        const docData = await doctorModel.findById(doctorId);
+        const slots_booked = docData.slots_booked;
+        slots_booked[slotDate] = slots_booked[slotDate].filter(time => time !== slotTime);
+        await doctorModel.findByIdAndUpdate(doctorId, { slots_booked }, { new: true });
+
+        return res.status(200).json({
+            success: true,
+            message: "Appointment cancelled successfully",
+        })
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+export { registerUser, loginUser, getProfile, updateProfile, bookAppointment, getUserAppointments, cancelAppointment };
