@@ -6,6 +6,7 @@ import connectCloudinary from "./config/cloudinary.js";
 import adminRouter from "./routes/adminRoute.js";
 import doctorRouter from "./routes/doctorRoute.js";
 import userRouter from "./routes/userRoute.js";
+import paymentRouter from "./routes/paymentRoute.js";
 dotenv.config();
 
 // Initialize the express app
@@ -27,6 +28,7 @@ app.use(express.urlencoded({ extended: true })); // Middlewares for parsing appl
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/doctor", doctorRouter);
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/payment", paymentRouter);
 app.use("/", (req, res) => {
     res.send("API is up and running");
 });

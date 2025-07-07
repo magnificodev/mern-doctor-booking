@@ -5,7 +5,6 @@ import validator from "validator";
 import { v2 as cloudinary } from "cloudinary";
 import doctorModel from "../models/doctorModel.js";
 import appointmentModel from "../models/appointmentModel.js";
-import Razorpay from "razorpay";
 
 const registerUser = async (req, res) => {
     try {
