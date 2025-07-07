@@ -5,6 +5,7 @@ import validator from "validator";
 import { v2 as cloudinary } from "cloudinary";
 import doctorModel from "../models/doctorModel.js";
 import appointmentModel from "../models/appointmentModel.js";
+import Razorpay from "razorpay";
 
 const registerUser = async (req, res) => {
     try {
@@ -299,6 +300,20 @@ const cancelAppointment = async (req, res) => {
             success: true,
             message: "Appointment cancelled successfully",
         })
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+// API to make payment of appointment using razorpay
+const paymentRazorpay = async (req, res) => {
+    try {
+        const { userId } = req.user;
+        const { appointmentId } = req.body;
     }
     catch (error) {
         res.status(500).json({
