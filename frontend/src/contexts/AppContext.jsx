@@ -12,16 +12,6 @@ const AppContextProvider = ({ children }) => {
         JSON.parse(localStorage.getItem("user")) ?? null
     );
 
-    const value = {
-        doctors,
-        currencySymbol,
-        backendUrl,
-        token,
-        setToken,
-        userData,
-        setUserData,
-    };
-
     const getDoctorsData = async () => {
         try {
             const { data } = await axios.get(
@@ -53,6 +43,18 @@ const AppContextProvider = ({ children }) => {
             console.log(error);
             toast.error(error.response.data.message);
         }
+    };
+
+    const value = {
+        doctors,
+        getDoctorsData,
+        currencySymbol,
+        backendUrl,
+        token,
+        setToken,
+        userData,
+        setUserData,
+        loadUserProfileData,
     };
 
     useEffect(() => {
