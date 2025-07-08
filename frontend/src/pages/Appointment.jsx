@@ -31,16 +31,26 @@ const Appointment = () => {
 
         // Get current date
         let today = new Date();
+        let daysProcessed = 0;
+        let dayOffset = 0;
 
-        for (let i = 0; i < 7; i++) {
-            // Get date with index
+        // Always process 7 days
+        while (daysProcessed < 7) {
+            // Get date with offset
             let currentDate = new Date(today);
-            currentDate.setDate(today.getDate() + i);
+            currentDate.setDate(today.getDate() + dayOffset);
 
-            // Set end time of the day with index
+            // Set end time of the day with offset
             let endTime = new Date();
-            endTime.setDate(today.getDate() + i);
+            endTime.setDate(today.getDate() + dayOffset);
             endTime.setHours(21, 0, 0, 0);
+
+            // Check if current time is already past 21:00 for today
+            if (dayOffset === 0 && today.getHours() >= 21) {
+                // Skip today if it's already past 21:00
+                dayOffset++;
+                continue;
+            }
 
             // Set start time (10:00 AM or next hour if current day)
             if (today.getDate() === currentDate.getDate()) {
@@ -89,12 +99,17 @@ const Appointment = () => {
                 currentDate.setMinutes(currentDate.getMinutes() + 30);
             }
 
-            setDocSlots((prev) => [...prev, timeSlots]);
+            if (timeSlots.length > 0) {
+                setDocSlots((prev) => [...prev, timeSlots]);
+            }
+
+            // Increment counters
+            daysProcessed++;
+            dayOffset++;
         }
     };
 
     const bookAppointment = async () => {
-        console.log("Booking appointment");
         if (!token) {
             toast.warn("Login to book an appointment");
             return navigate("/login");
