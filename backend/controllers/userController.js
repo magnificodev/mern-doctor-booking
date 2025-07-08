@@ -110,7 +110,6 @@ const loginUser = async (req, res) => {
 const getProfile = async (req, res) => {
     try {
         const { userId } = req.user;
-        console.log(userId);
         const user = await userModel.findById(userId).select("-password");
         if (!user) {
             return res.status(400).json({
@@ -175,8 +174,6 @@ const bookAppointment = async (req, res) => {
         const { userId } = req.user;
         const { doctorId, slotDate, slotTime } = req.body;
 
-        console.log(doctorId, slotDate, slotTime);
-
         if (!doctorId || !slotDate || !slotTime) {
             return res.status(400).json({
                 success: false,
@@ -228,7 +225,6 @@ const bookAppointment = async (req, res) => {
 
         const newAppointment = new appointmentModel(appointmentData);
         await newAppointment.save();
-        console.log("Appointment saved");
 
         await doctorModel.findByIdAndUpdate(doctorId, { slots_booked }, { new: true });
 

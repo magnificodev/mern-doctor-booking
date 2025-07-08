@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const generateAccessToken = async () => {
-    const response = await axios.post(`${process.env.PAYPAL_BASE_URL}/v1/oauth2/token`,
+    const { data } = await axios.post(`${process.env.PAYPAL_BASE_URL}/v1/oauth2/token`,
         'grant_type=client_credentials',
         {
             headers: {
@@ -13,17 +13,19 @@ const generateAccessToken = async () => {
             }
         }
     );
-    return response.data.access_token;
+    return data.access_token;
 };
 
-const createOrder = async (amount) => {
+const createOrder = async (amount, appointmentId) => {
     const accessToken = await generateAccessToken();
     const url = `${process.env.PAYPAL_BASE_URL}/v2/checkout/orders`;
 
-    const response = await axios.post(url, {
+    const { data } = await axios.post(url, {
         intent: "CAPTURE",
         purchase_units: [
             {
+                reference_id: appointmentId,
+                description: "Appointment Payment",
                 amount: {
                     currency_code: "USD",
                     value: amount
@@ -37,21 +39,21 @@ const createOrder = async (amount) => {
         }
     });
 
-    return response.data;
+    return data;
 };
 
 const capturePayment = async (orderId) => {
     const accessToken = await generateAccessToken();
     const url = `${process.env.PAYPAL_BASE_URL}/v2/checkout/orders/${orderId}/capture`;
 
-    const response = await axios.post(url, {}, {
+    const { data } = await axios.post(url, {}, {
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`
         }
     });
 
-    return response.data;
+    return data;
 };
 
 const getOrderDetails = async (orderId) => {
