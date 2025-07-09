@@ -4,7 +4,7 @@ import { AppContext } from "../../contexts/AppContext";
 import { assets } from "../../assets/assets";
 
 const AllAppointments = () => {
-    const { atoken, getAllAppointments, appointments, backendUrl } =
+    const { atoken, getAllAppointments, appointments, backendUrl, cancelAppointment } =
         useContext(AdminContext);
     const { calculateAge, slotDateFormatter, currency } =
         useContext(AppContext);
@@ -69,6 +69,7 @@ const AllAppointments = () => {
                                 className="w-10 cursor-pointer"
                                 src={assets.cancel_icon}
                                 alt="Cancel Button"
+                                onClick={() => cancelAppointment(appointment._id)}
                             />
                         )}
                     </div>
