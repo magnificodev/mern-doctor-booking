@@ -137,6 +137,7 @@ const AddDoctor = () => {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
+                                
                             />
                         </div>
                         <div>

@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { assets } from '../assets/assets'
 import { AdminContext } from '../contexts/AdminContext'
+import { toast } from 'react-toastify'
 
 const Navbar = () => {
     const { atoken, setAtoken } = useContext(AdminContext);
@@ -10,7 +11,8 @@ const Navbar = () => {
     const logout = () => {
         if (atoken) {
             setAtoken("");
-            localStorage.removeItem("aToken");
+            localStorage.removeItem("atoken");
+            toast.success("Logged out successfully");
             navigate("/");
         }
     }

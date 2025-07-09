@@ -72,7 +72,7 @@ const loginUser = async (req, res) => {
             })
         }
 
-        const user = await userModel.findOne({ email });
+        const user = await userModel.findOne({ email })
 
         if (!user) {
             return res.status(400).json({
@@ -295,20 +295,6 @@ const cancelAppointment = async (req, res) => {
             success: true,
             message: "Appointment cancelled successfully",
         })
-    }
-    catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message
-        })
-    }
-}
-
-// API to make payment of appointment using razorpay
-const paymentRazorpay = async (req, res) => {
-    try {
-        const { userId } = req.user;
-        const { appointmentId } = req.body;
     }
     catch (error) {
         res.status(500).json({
