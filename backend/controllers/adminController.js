@@ -151,4 +151,34 @@ const getAllAppointments = async (req, res) => {
     }
 }
 
-export { addDoctor, loginAdmin, getAllDoctors, getAllAppointments };
+// API for cancelling appointment
+const cancelAppointment = async (req, res) => {
+    try {
+        const { appointmentId } = req.body;
+
+        // Get the appointment data and remove the slot from the doctor's slots_booked
+        const appointment = await appointmentModel.findById(appointmentId);
+        const { doctorId, slotDate, slotTime } = appointment;
+        const docData = await doctorModel.findById(doctorId);
+        const slots_booked = docData.slots_booked;
+        slots_booked[slotDate] = slots_booked[slotDate].filter(time => time !== slotTime);
+        await doctorModel.findByIdAndUpdate(doctorId, { slots_booked }, { new: true });
+
+        // Cancel the appointment
+        await appointmentModel.findByIdAndUpdate(appointmentId, { cancelled: true });
+
+        return res.status(200).json({
+            success: true,
+            message: "Appointment cancelled successfully"
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong"
+        });
+    }
+}
+
+export { addDoctor, loginAdmin, getAllDoctors, getAllAppointments, cancelAppointment };
