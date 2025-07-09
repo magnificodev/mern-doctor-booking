@@ -101,11 +101,12 @@ const Appointment = () => {
 
             if (timeSlots.length > 0) {
                 setDocSlots((prev) => [...prev, timeSlots]);
+                
+                // Increment counters
+                daysProcessed++;
             }
-
-            // Increment counters
-            daysProcessed++;
             dayOffset++;
+
         }
     };
 
