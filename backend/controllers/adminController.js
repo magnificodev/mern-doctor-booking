@@ -2,6 +2,7 @@ import validator from "validator";
 import bcrypt from "bcrypt";
 import { v2 as cloudinary } from "cloudinary";
 import doctorModel from "../models/doctorModel.js";
+import appointmentModel from "../models/appointmentModel.js";
 import jwt from "jsonwebtoken";
 
 // API for adding doctor
@@ -113,6 +114,7 @@ const loginAdmin = async (req, res) => {
     }
 }
 
+// API for getting all doctors
 const getAllDoctors = async (req, res) => {
     try {
         const doctors = await doctorModel.find({}).select("-password");
@@ -130,4 +132,23 @@ const getAllDoctors = async (req, res) => {
     }
 }
 
-export { addDoctor, loginAdmin, getAllDoctors };
+// API for getting all appointments
+const getAllAppointments = async (req, res) => {
+    try {
+        const appointments = await appointmentModel.find({});
+        return res.status(200).json({
+            success: true,
+            message: "Appointments fetched successfully",
+            appointments
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong"
+        });
+    }
+}
+
+export { addDoctor, loginAdmin, getAllDoctors, getAllAppointments };
