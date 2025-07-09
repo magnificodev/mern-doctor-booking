@@ -181,4 +181,33 @@ const cancelAppointment = async (req, res) => {
     }
 }
 
-export { addDoctor, loginAdmin, getAllDoctors, getAllAppointments, cancelAppointment };
+// API for getting dashboard data for admin panel
+const getDashboardData = async (req, res) => {
+    try {
+        const doctors = await doctorModel.find({});
+        const users = await userModel.find({});
+        const appointments = await appointmentModel.find({});
+
+        const dashData = {
+            doctors: doctors.length,
+            patients: users.length,
+            appointments: appointments.length,
+            latestAppointments: appointments.reverse().slice(0, 5)
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Dashboard data fetched successfully",
+            dashData
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong"
+        });
+    }
+}
+
+export { addDoctor, loginAdmin, getAllDoctors, getAllAppointments, cancelAppointment, getDashboardData };
