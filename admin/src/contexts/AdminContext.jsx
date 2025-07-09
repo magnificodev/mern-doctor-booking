@@ -8,7 +8,7 @@ export const AdminContext = createContext();
 const AdminContextProvider = ({ children }) => {
     const [atoken, setAtoken] = useState(localStorage.getItem("atoken") ?? "");
     const [doctors, setDoctors] = useState([]);
-
+    const [appointments, setAppointments] = useState([]);
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
     const getAllDoctors = async () => {
@@ -49,6 +49,23 @@ const AdminContextProvider = ({ children }) => {
         }
     };
 
+    const getAllAppointments = async () => {
+        try {
+            const { data } = await axios.get(
+                `${backendUrl}/api/v1/admin/all-appointments`,
+                {
+                    headers: { atoken: atoken },
+                }
+            );
+            if (data.success) {
+                setAppointments(data.appointments);
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error.response.data.message);
+        }
+    }
+
     const value = {
         atoken,
         setAtoken,
@@ -56,6 +73,8 @@ const AdminContextProvider = ({ children }) => {
         doctors,
         getAllDoctors,
         changeAvailability,
+        getAllAppointments,
+        appointments,
     };
 
     return (
