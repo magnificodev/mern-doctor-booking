@@ -3,15 +3,23 @@ import { useNavigate } from 'react-router-dom'
 import { assets } from '../assets/assets'
 import { AdminContext } from '../contexts/AdminContext'
 import { toast } from 'react-toastify'
+import { DoctorContext } from '../contexts/DoctorContext'
 
 const Navbar = () => {
     const { atoken, setAtoken } = useContext(AdminContext);
+    const { dtoken, setDtoken } = useContext(DoctorContext);
     const navigate = useNavigate();
 
     const logout = () => {
         if (atoken) {
             setAtoken("");
             localStorage.removeItem("atoken");
+            toast.success("Logged out successfully");
+            navigate("/");
+        }
+        if (dtoken) {
+            setDtoken("");
+            localStorage.removeItem("dtoken");
             toast.success("Logged out successfully");
             navigate("/");
         }

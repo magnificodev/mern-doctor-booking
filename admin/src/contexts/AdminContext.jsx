@@ -59,7 +59,7 @@ const AdminContextProvider = ({ children }) => {
                 }
             );
             if (data.success) {
-                setAppointments(data.appointments);
+                setAppointments(data.appointments.reverse());
             }
         } catch (error) {
             console.log(error);
