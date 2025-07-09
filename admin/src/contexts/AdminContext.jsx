@@ -79,6 +79,7 @@ const AdminContextProvider = ({ children }) => {
             if (data.success) {
                 toast.success(data.message);
                 getAllAppointments();
+                getDashboardData();
             }
         } catch (error) {
             console.log(error);

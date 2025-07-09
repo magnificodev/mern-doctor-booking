@@ -4,7 +4,7 @@ import { AppContext } from "../../contexts/AppContext";
 import { assets } from "../../assets/assets";
 
 const AllAppointments = () => {
-    const { atoken, getAllAppointments, appointments, backendUrl, cancelAppointment } =
+    const { atoken, getAllAppointments, appointments, cancelAppointment } =
         useContext(AdminContext);
     const { calculateAge, slotDateFormatter, currency } =
         useContext(AppContext);
