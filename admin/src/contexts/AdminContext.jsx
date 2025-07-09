@@ -9,6 +9,7 @@ const AdminContextProvider = ({ children }) => {
     const [atoken, setAtoken] = useState(localStorage.getItem("atoken") ?? "");
     const [doctors, setDoctors] = useState([]);
     const [appointments, setAppointments] = useState([]);
+    const [dashData, setDashData] = useState({});
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
     const getAllDoctors = async () => {
@@ -64,7 +65,7 @@ const AdminContextProvider = ({ children }) => {
             console.log(error);
             toast.error(error.response.data.message);
         }
-    }
+    };
 
     const cancelAppointment = async (appointmentId) => {
         try {
@@ -83,7 +84,24 @@ const AdminContextProvider = ({ children }) => {
             console.log(error);
             toast.error(error.response.data.message);
         }
-    }
+    };
+
+    const getDashboardData = async () => {
+        try {
+            const { data } = await axios.get(
+                `${backendUrl}/api/v1/admin/dashboard`,
+                {
+                    headers: { atoken: atoken },
+                }
+            );
+            if (data.success) {
+                setDashData(data.dashData);
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error.response.data.message);
+        }
+    };
 
     const value = {
         atoken,
@@ -95,6 +113,8 @@ const AdminContextProvider = ({ children }) => {
         getAllAppointments,
         appointments,
         cancelAppointment,
+        getDashboardData,
+        dashData,
     };
 
     return (
