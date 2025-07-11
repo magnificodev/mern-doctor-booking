@@ -4,7 +4,13 @@ import { AppContext } from "../../contexts/AppContext";
 import { assets } from "../../assets/assets";
 
 const DoctorAppointments = () => {
-    const { dtoken, appointments, getAppointments } = useContext(DoctorContext);
+    const {
+        dtoken,
+        appointments,
+        getAppointments,
+        completeAppointment,
+        cancelAppointment,
+    } = useContext(DoctorContext);
     const { currency, calculateAge, slotDateFormatter } =
         useContext(AppContext);
 
@@ -57,24 +63,36 @@ const DoctorAppointments = () => {
                             {currency}
                             {appointment.docData.fees}
                         </p>
-                        <div className="flex">
-                            <img
-                                className="w-10 cursor-pointer"
-                                src={assets.cancel_icon}
-                                alt="Cancel Button"
-                                onClick={() =>
-                                    cancelAppointment(appointment._id)
-                                }
-                            />
-                            <img
-                                className="w-10 cursor-pointer"
-                                src={assets.tick_icon}
-                                alt="Cancel Button"
-                                onClick={() =>
-                                    cancelAppointment(appointment._id)
-                                }
-                            />
-                        </div>
+                        {appointment.cancelled ? (
+                            <p className="text-red-400 text-xs font-medium">Cancelled</p>
+                        ) : appointment.isCompleted ? (
+                            <p className="text-green-500 text-xs font-medium">Completed</p>
+                        ) : (
+                            <div className="flex">
+                                <img
+                                    className="w-10 cursor-pointer"
+                                    src={assets.cancel_icon}
+                                    alt="Cancel Button"
+                                    onClick={() =>
+                                        cancelAppointment(
+                                            appointment.doctorId,
+                                            appointment._id
+                                        )
+                                    }
+                                />
+                                <img
+                                    className="w-10 cursor-pointer"
+                                    src={assets.tick_icon}
+                                    alt="Cancel Button"
+                                    onClick={() =>
+                                        completeAppointment(
+                                            appointment.doctorId,
+                                            appointment._id
+                                        )
+                                    }
+                                />
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>

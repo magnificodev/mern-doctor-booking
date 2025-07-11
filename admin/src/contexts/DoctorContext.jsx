@@ -10,7 +10,6 @@ const DoctorContextProvider = ({ children }) => {
     const [dtoken, setDtoken] = useState(localStorage.getItem("dtoken") ?? "");
     const [appointments, setAppointments] = useState([]);
 
-
     const getAppointments = async () => {
         try {
             const { data } = await axios.get(
@@ -30,12 +29,56 @@ const DoctorContextProvider = ({ children }) => {
         }
     };
 
+    const completeAppointment = async (doctorId, appointmentId) => {
+        try {
+            const { data } = await axios.post(
+                `${backendUrl}/api/v1/doctor/complete-appointment`,
+                { doctorId, appointmentId },
+                {
+                    headers: {
+                        dtoken: dtoken,
+                    },
+                }
+            );
+            if (data.success) {
+                toast.success(data.message);
+                getAppointments();
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error.response.data.message);
+        }
+    };
+
+    const cancelAppointment = async (doctorId, appointmentId) => {
+        try {
+            const { data } = await axios.post(
+                `${backendUrl}/api/v1/doctor/cancel-appointment`,
+                { doctorId, appointmentId },
+                {
+                    headers: {
+                        dtoken: dtoken,
+                    },
+                }
+            );
+            if (data.success) {
+                toast.success(data.message);
+                getAppointments();
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error.response.data.message);
+        }
+    };
+
     const value = {
         dtoken,
         setDtoken,
         backendUrl,
         appointments,
-        getAppointments
+        getAppointments,
+        completeAppointment,
+        cancelAppointment,
     };
 
     return (
