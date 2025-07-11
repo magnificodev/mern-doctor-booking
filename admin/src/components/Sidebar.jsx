@@ -23,7 +23,7 @@ const Sidebar = () => {
                         to="/admin-dashboard"
                     >
                         <img src={assets.home_icon} alt="admin dashboard" />
-                        <p>Dashboard</p>
+                        <p className="hidden md:block">Dashboard</p>
                     </NavLink>
                     <NavLink
                         className={({ isActive }) =>
@@ -39,7 +39,7 @@ const Sidebar = () => {
                             src={assets.appointment_icon}
                             alt="all appointments"
                         />
-                        <p>Appointments</p>
+                        <p className="hidden md:block">Appointments</p>
                     </NavLink>
                     <NavLink
                         className={({ isActive }) =>
@@ -52,7 +52,7 @@ const Sidebar = () => {
                         to="/add-doctor"
                     >
                         <img src={assets.add_icon} alt="add doctor" />
-                        <p>Add Doctor</p>
+                        <p className="hidden md:block">Add Doctor</p>
                     </NavLink>
                     <NavLink
                         className={({ isActive }) =>
@@ -65,7 +65,7 @@ const Sidebar = () => {
                         to="/doctor-list"
                     >
                         <img src={assets.people_icon} alt="doctors list" />
-                        <p>Doctors List</p>
+                        <p className="hidden md:block">Doctors List</p>
                     </NavLink>
                 </ul>
             )}
@@ -83,7 +83,7 @@ const Sidebar = () => {
                         to="/doctor-dashboard"
                     >
                         <img src={assets.home_icon} alt="doctor dashboard" />
-                        <p>Dashboard</p>
+                        <p className="hidden md:block">Dashboard</p>
                     </NavLink>
                     <NavLink
                         className={({ isActive }) =>
@@ -99,7 +99,7 @@ const Sidebar = () => {
                             src={assets.appointment_icon} 
                             alt="all appointments"
                         />
-                        <p>Appointments</p>
+                        <p className="hidden md:block">Appointments</p>
                     </NavLink>
                     <NavLink
                         className={({ isActive }) =>
@@ -112,7 +112,7 @@ const Sidebar = () => {
                         to="/doctor-profile"
                     >
                         <img src={assets.people_icon} alt="doctor profile" />
-                        <p>Profile</p>
+                        <p className="hidden md:block">Profile</p>
                     </NavLink>
                 </ul>
             )}

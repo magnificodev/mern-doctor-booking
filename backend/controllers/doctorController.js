@@ -99,4 +99,64 @@ const doctorAppointments = async (req, res) => {
     }
 }
 
-export { changeAvailability, doctorList, loginDoctor, doctorAppointments };
+// API to complete appointment for doctor panel 
+const completeAppointment = async (req, res) => {
+    try {
+        const { doctorId, appointmentId } = req.body;
+        const appointmentData = await appointmentModel.findById(appointmentId);
+
+        if (appointmentData && appointmentData.doctorId.toString() === doctorId) {
+            await appointmentModel.findByIdAndUpdate(appointmentId, {
+                isCompleted: true,
+            })
+            return res.status(200).json({
+                success: true,
+                message: "Appointment completed successfully"
+            })
+        }
+        else {
+            return res.status(400).json({
+                success: false,
+                message: "You are not authorized to complete this appointment"
+            })
+        }
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+// API to cancel appointment for doctor panel 
+const cancelAppointment = async (req, res) => {
+    try {
+        const { doctorId, appointmentId } = req.body;
+        const appointmentData = await appointmentModel.findById(appointmentId);
+
+        if (appointmentData && appointmentData.doctorId.toString() === doctorId) {
+            await appointmentModel.findByIdAndUpdate(appointmentId, {
+                cancelled: true,
+            })
+            return res.status(200).json({
+                success: true,
+                message: "Appointment cancelled successfully"
+            })
+        }
+        else {
+            return res.status(400).json({
+                success: false,
+                message: "You are not authorized to cancel this appointment"
+            })
+        }
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+export { changeAvailability, doctorList, loginDoctor, doctorAppointments, completeAppointment, cancelAppointment };
