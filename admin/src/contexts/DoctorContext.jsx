@@ -9,6 +9,7 @@ const DoctorContextProvider = ({ children }) => {
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
     const [dtoken, setDtoken] = useState(localStorage.getItem("dtoken") ?? "");
     const [appointments, setAppointments] = useState([]);
+    const [dashData, setDashData] = useState({});
 
     const getAppointments = async () => {
         try {
@@ -43,6 +44,7 @@ const DoctorContextProvider = ({ children }) => {
             if (data.success) {
                 toast.success(data.message);
                 getAppointments();
+                getDashboardData();
             }
         } catch (error) {
             console.log(error);
@@ -64,6 +66,26 @@ const DoctorContextProvider = ({ children }) => {
             if (data.success) {
                 toast.success(data.message);
                 getAppointments();
+                getDashboardData();
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error.response.data.message);
+        }
+    };
+
+    const getDashboardData = async () => {
+        try {
+            const { data } = await axios.get(`${backendUrl}/api/v1/doctor/dashboard`, {
+                headers: {
+                    dtoken: dtoken,
+                },
+            });
+            if (data.success) {
+                setDashData(data.dashData);
+            }
+            else {
+                toast.error(data.message);
             }
         } catch (error) {
             console.log(error);
@@ -79,6 +101,8 @@ const DoctorContextProvider = ({ children }) => {
         getAppointments,
         completeAppointment,
         cancelAppointment,
+        getDashboardData,
+        dashData,
     };
 
     return (

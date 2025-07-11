@@ -180,17 +180,17 @@ const doctorDashboardData = async (req, res) => {
             }
         })
 
-        const dashboardData = {
+        const dashData = {
             earnings,
-            patientsLength: patients.length,
-            appointmentsLength: appointments.length,
+            patients: patients.length,
+            appointments: appointments.length,
             latestAppointments: appointments.reverse().slice(0, 5)
         }
 
         res.status(200).json({
             success: true,
             message: "Dashboard data fetched successfully",
-            dashboardData
+            dashData
         })
     } catch (error) {
         res.status(500).json({
