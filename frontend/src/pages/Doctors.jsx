@@ -77,9 +77,25 @@ const Doctors = () => {
                                 alt="Doctor Image"
                             />
                             <div className="p-4">
-                                <div className="flex items-center gap-2 text-sm text-center text-green-500">
-                                    <p className="w-2 h-2 bg-green-500 rounded-full"></p>
-                                    <p>Available</p>
+                                <div
+                                    className={`flex items-center gap-2 text-sm text-center ${
+                                        filterDoc.available
+                                            ? "text-green-500"
+                                            : "text-gray-500"
+                                    }`}
+                                >
+                                    <p
+                                        className={`w-2 h-2 ${
+                                            filterDoc.available
+                                                ? "bg-green-500"
+                                                : "bg-gray-500"
+                                        } rounded-full`}
+                                    ></p>
+                                    <p>
+                                        {filterDoc.available
+                                            ? "Available"
+                                            : "Unavailable"}
+                                    </p>
                                 </div>
                                 <p className="text-gray-900 text-lg font-medium">
                                     {filterDoc.name}
