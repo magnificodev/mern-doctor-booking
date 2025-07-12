@@ -126,14 +126,14 @@ const MyAppointments = () => {
                                     Paid
                                 </button>
                             )}
-                            {!appointment.cancelled && !appointment.payment && (
+                            {!appointment.cancelled && !appointment.payment && !appointment.isCompleted && (
                                 <PaypalCheckoutButton
                                     amount={appointment.amount}
                                     appointmentId={appointment._id}
                                     onPaymentSuccess={onPaymentSuccess}
                                 />
                             )}
-                            {!appointment.cancelled && (
+                            {!appointment.cancelled && !appointment.isCompleted && (
                                 <button
                                     onClick={() =>
                                         cancelAppointment(appointment._id)
@@ -143,11 +143,12 @@ const MyAppointments = () => {
                                     Cancel appointment
                                 </button>
                             )}
-                            {appointment.cancelled && (
+                            {appointment.cancelled && !appointment.isCompleted && (
                                 <button className="sm:min-w-48 border border-red-500 rounded py-2 text-red-500">
                                     Appointment cancelled
                                 </button>
                             )}
+                            {appointment.isCompleted && (<button className="sm:min-w-48 py-2 border border-green-500 rounded text-green-500">Completed</button>)}
                         </div>
                     </div>
                 ))}
