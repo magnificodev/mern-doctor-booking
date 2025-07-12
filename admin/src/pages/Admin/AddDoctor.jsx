@@ -78,7 +78,7 @@ const AddDoctor = () => {
                 <div className="flex gap-4 items-center text-gray-500">
                     <label htmlFor="doc-img">
                         <img
-                            className="w-16 bg-gray-200 rounded-full cursor-pointer"
+                            className="w-16 h-16 bg-gray-200 rounded-full cursor-pointer object-cover"
                             src={
                                 docImage
                                     ? URL.createObjectURL(docImage)
