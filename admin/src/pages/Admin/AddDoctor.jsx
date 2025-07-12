@@ -38,13 +38,8 @@ const AddDoctor = () => {
             formData.append("fees", Number(fees));
             formData.append("speciality", speciality);
             formData.append("degree", degree);
-            formData.append(
-                "address",
-                JSON.stringify({
-                    line1: address1,
-                    line2: address2,
-                })
-            );
+            formData.append("address[line1]", address1);
+            formData.append("address[line2]", address2);
             formData.append("about", about);
             formData.append("image", docImage);
 

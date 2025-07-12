@@ -106,9 +106,9 @@ const MyAppointments = () => {
                                 Address:
                             </h6>
                             <p>
-                                {JSON.parse(appointment.docData.address).line1}
+                                {appointment.docData.address.line1}
                                 <br />
-                                {JSON.parse(appointment.docData.address).line2}
+                                {appointment.docData.address.line2}
                             </p>
                             <h6 className="font-medium text-zinc-700 mt-1">
                                 Date & Time:{" "}
