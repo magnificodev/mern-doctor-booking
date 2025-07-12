@@ -47,6 +47,7 @@ const Login = () => {
                     localStorage.setItem("dtoken", data.token);
                     setDtoken(data.token);
                     toast.success("Login successful");
+                    navigate("/doctor-dashboard");
                 }
             }
         } catch (error) {
