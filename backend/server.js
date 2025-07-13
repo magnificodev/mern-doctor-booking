@@ -24,6 +24,12 @@ app.use(cors());
 app.use(express.json()); // Middlewares for parsing application/json
 app.use(express.urlencoded({ extended: true })); // Middlewares for parsing application/x-www-form-urlencoded
 app.use("/", express.static(path.join(__dirname, "../frontend/dist")));
+app.use("/admin", express.static(path.join(__dirname, "../admin/dist")));
+
+
+// Fallback routes
+app.use("/admin/*", (req, res) => res.sendFile(path.join(__dirname, "../admin/dist/index.html")));
+app.use("/*", (req, res) => res.sendFile(path.join(__dirname, "../frontend/dist/index.html")));
 
 // Routes
 app.use("/api/v1/admin", adminRouter);
