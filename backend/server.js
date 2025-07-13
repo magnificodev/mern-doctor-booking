@@ -23,6 +23,7 @@ connectCloudinary();
 app.use(cors());
 app.use(express.json()); // Middlewares for parsing application/json
 app.use(express.urlencoded({ extended: true })); // Middlewares for parsing application/x-www-form-urlencoded
+app.use("/", express.static(path.join(__dirname, "../frontend/dist")));
 
 // Routes
 app.use("/api/v1/admin", adminRouter);

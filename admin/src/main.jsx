@@ -9,7 +9,7 @@ import AppContextProvider from "./contexts/AppContext.jsx";
 
 createRoot(document.getElementById("root")).render(
     <StrictMode>
-        <BrowserRouter>
+        <BrowserRouter basename="/admin">
             <AdminContextProvider>
                 <DoctorContextProvider>
                     <AppContextProvider>
