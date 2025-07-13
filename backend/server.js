@@ -15,6 +15,7 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+
 // Initialize the express app
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -33,17 +34,18 @@ app.use("/", express.static(path.join(__dirname, "../frontend/dist")));
 app.use("/admin", express.static(path.join(__dirname, "../admin/dist")));
 
 
-// Fallback routes
-app.use("/admin/*", (req, res) => res.sendFile(path.join(__dirname, "../admin/dist/index.html")));
-app.use("/*", (req, res) => res.sendFile(path.join(__dirname, "../frontend/dist/index.html")));
-
 // Routes
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/doctor", doctorRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/payment", paymentRouter);
-app.use("/", (req, res) => {
-    res.send("API is up and running");
+// app.use("*", (req, res) => res.sendFile(path.join(__dirname, "../frontend/dist/index.html")));
+// app.use("/admin/*", (req, res) => res.sendFile(path.join(__dirname, "../admin/dist/index.html")));
+app.use("{*any}", (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+});
+app.use("/admin/{*any}", (req, res) => {
+    res.sendFile(path.join(__dirname, "../admin/dist/index.html"));
 });
 
 // Start the server
