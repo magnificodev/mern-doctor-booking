@@ -41,7 +41,7 @@ app.use("/api/v1/user", userRouter);
 app.use("/api/v1/payment", paymentRouter);
 // app.use("*", (req, res) => res.sendFile(path.join(__dirname, "../frontend/dist/index.html")));
 // app.use("/admin/*", (req, res) => res.sendFile(path.join(__dirname, "../admin/dist/index.html")));
-app.use("{*any}", (req, res) => {
+app.use("/{*any}", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
 });
 app.use("/admin/{*any}", (req, res) => {
